@@ -7,7 +7,7 @@
 #########################################################
 
 # 1. Setup the "Notebook" (Log File)
-LOG_FILE="/home/ubuntu/resourceTracker"
+LOG_FILE="/home/ubuntu/resourceTracker.txt"
 
 # 2. Start the Report with a nice header
 {
@@ -19,12 +19,15 @@ LOG_FILE="/home/ubuntu/resourceTracker"
   echo "[+] Listing S3 Buckets:"
   aws s3 ls || echo "No S3 Buckets found or Access Denied."
 
-  # 4. Check for EC2 (Computers)
+  # 4. Check for EC2 (Compute Instances)
   echo -e "\n[+] Listing EC2 Instance IDs:"
-  # Using jq to make the output super clean
   aws ec2 describe-instances | jq -r '.Reservations[].Instances[].InstanceId'
 
-  # 5. Check for IAM (Users)
+  # 5. Check for Lambda (Serverless Functions)
+  echo -e "\n[+] Listing Lambda Functions:"
+  aws lambda list-functions | jq -r '.Functions[].FunctionName'
+
+  # 6. Check for IAM (Users)
   echo -e "\n[+] Listing IAM Users:"
   aws iam list-users | jq -r '.Users[].UserName'
 
