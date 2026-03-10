@@ -1,36 +1,45 @@
-# ☁️ AWS Resource Tracker Automation
+# ☁️ AWS Resource Tracker: Automation with Bash & Cron
 
-## 📖 Project Overview
-
-This project is a simple **DevOps automation script** that monitors AWS resources and logs them automatically.
-
-The script checks important AWS services and records their details in a log file. It helps understand how to automate **cloud resource auditing** using **Shell Scripting, AWS CLI, and Cron jobs**.
-
-This project demonstrates practical DevOps skills like:
-
-- AWS CLI usage
-- Shell scripting automation
-- Linux cron scheduling
-- Cloud resource monitoring
+🚀 DevOps Project | AWS CLI Automation | Shell Scripting | Cron Jobs
 
 ---
 
-# 🧠 Why This Project?
+# 📌 Project Overview
 
-When working in cloud environments, many resources can be created over time such as:
+This project is a **DevOps automation script** built using **Bash, AWS CLI, and Linux Cron**.
+
+The script automatically scans AWS resources and writes the information into a log file.
+
+This helps monitor cloud infrastructure and avoid problems like:
+
+• unused resources  
+• security risks  
+• unnecessary cloud costs  
+
+I built this project to understand how DevOps engineers **automate cloud monitoring tasks**.
+
+---
+
+# 🧠 The Problem This Solves
+
+In real cloud environments, many resources are created such as:
 
 - EC2 instances
 - S3 buckets
 - Lambda functions
 - IAM users
 
-If these resources are not monitored regularly, it can lead to:
+Over time these resources can be forgotten.
 
-- unnecessary cloud costs
-- unused resources
-- security risks
+This situation is called **Cloud Sprawl**.
 
-This script automatically checks and logs AWS resources so that you always know **what is running in your AWS account**.
+Cloud sprawl can cause:
+
+- unnecessary billing
+- unused infrastructure
+- security vulnerabilities
+
+This script acts like a **digital watchdog** that regularly checks AWS resources and records them.
 
 ---
 
@@ -39,8 +48,9 @@ This script automatically checks and logs AWS resources so that you always know 
 - Linux (Ubuntu)
 - Bash Shell Scripting
 - AWS CLI
-- Cron Scheduler
 - jq (JSON processor)
+- Cron Jobs
+- Git & GitHub
 
 ---
 
@@ -50,63 +60,83 @@ This script automatically checks and logs AWS resources so that you always know 
 AWS-Resource-Tracker-Automation
 │
 ├── aws_resource_tracker.sh
-├── resourceTracker.txt
-├── screenshots
-│ ├── cron_automation_setup.jpeg
-│ └── aws_report_output.png
-└── README.md
+├── README.md
+├── Screenshots
+│ ├── aws_report_output.png
+│ └── cron_automation_setup.jpeg
 
 
 ---
 
 # 🚀 Step-by-Step Setup Guide
 
-Follow these steps to run this project on your own system.
+This guide explains how to run this project from scratch.
 
 ---
 
 # Step 1️⃣ Clone the Repository
 
-Download the project to your local machine.
+Download the project to your system.
 
 
 git clone https://github.com/Akash-bhaumik/AWS-Resource-Tracker-Automation.git
 
 
-Move into the project directory:
+Move into the project folder.
 
 
 cd AWS-Resource-Tracker-Automation
 
 
+Now your system has the project files.
+
 ---
 
-# Step 2️⃣ Install Required Tools
+# Step 2️⃣ Install Required Dependencies
 
-Update system packages:
+Update system packages.
 
 
 sudo apt update && sudo apt upgrade -y
 
 
-Install AWS CLI and jq:
+Install AWS CLI and jq.
 
 
 sudo apt install awscli jq -y
 
 
-Verify installations:
+Check installations.
 
 
 aws --version
 jq --version
 
 
+### Why these tools are needed
+
+**AWS CLI**
+
+Allows your system to communicate with AWS services directly from the terminal.
+
+**jq**
+
+AWS CLI returns data in **JSON format**.  
+`jq` extracts useful information from that JSON.
+
+Example:
+
+
+jq -r '.Reservations[].Instances[].InstanceId'
+
+
+This extracts **only EC2 instance IDs** from large JSON responses.
+
 ---
 
 # Step 3️⃣ Configure AWS CLI
 
-Now connect your system with your AWS account.
+Connect your system with your AWS account.
 
 Run:
 
@@ -114,22 +144,24 @@ Run:
 aws configure
 
 
-You will be asked to enter:
+Enter the following details:
 
 
 AWS Access Key ID
 AWS Secret Access Key
-Default Region (example: us-east-1)
-Default Output Format: json
+Default region name: us-east-1
+Default output format: json
 
 
-After configuration your system will be able to communicate with AWS services.
+Now your system can access AWS resources.
 
 ---
 
-# Step 4️⃣ Make Script Executable
+# Step 4️⃣ Give Execution Permission
 
-Before running the script you must give execute permission.
+Linux does not allow scripts to run without permission.
+
+So we make the script executable.
 
 
 chmod +x aws_resource_tracker.sh
@@ -139,56 +171,78 @@ chmod +x aws_resource_tracker.sh
 
 # Step 5️⃣ Run the Script Manually
 
-Run the script to test the setup.
+Run the script to test it.
 
 
 ./aws_resource_tracker.sh
 
 
-Check the generated log file:
+View the log file.
 
 
 cat resourceTracker.txt
 
 
-The script will list resources such as:
+The script will display:
 
-- EC2 Instance IDs
-- S3 Buckets
-- Lambda Functions
-- IAM Users
+- EC2 instance IDs
+- S3 buckets
+- Lambda functions
+- IAM users
 
 ---
 
-# ⏰ Step 6️⃣ Automate the Script Using Cron
+# 📸 Script Output Example
 
-To run the script automatically we use **Cron Jobs**.
+Below is an example of the script successfully retrieving AWS resources.
 
-Open the cron scheduler:
+![AWS Script Output](https://github.com/Akash-bhaumik/AWS-Resource-Tracker-Automation/blob/main/Screenshots/aws_report_output.png)
+
+This confirms that the script is communicating with AWS and retrieving data.
+
+---
+
+# ⏰ Step 6️⃣ Automate Using Cron
+
+Instead of running the script manually every time, we automate it.
+
+Open the cron scheduler.
 
 
 crontab -e
 
 
-Add this line at the bottom:
+Add this line.
 
 
 0 * * * * /bin/bash /home/ubuntu/AWS-Resource-Tracker-Automation/aws_resource_tracker.sh
 
 
-Meaning:
+### Cron Schedule Meaning
 
 
-0 * * * * → run the script every hour
+0 * * * *
 
 
-Now the script will run automatically every hour.
+means:
+
+Run the script **every hour automatically**.
 
 ---
 
-# 📊 Viewing the Logs
+# 📸 Cron Automation Setup
 
-To check the logs:
+Below is the cron automation configuration used in this project.
+
+![Cron Automation Setup](https://github.com/Akash-bhaumik/AWS-Resource-Tracker-Automation/blob/main/Screenshots/cron_automation_setup.jpeg)
+
+This ensures the script runs automatically without manual intervention.
+
+---
+
+# 📊 Viewing Logs
+
+To check script logs:
 
 
 cat resourceTracker.txt
@@ -202,56 +256,9 @@ tail -f resourceTracker.txt
 
 ---
 
-# 🔍 Understanding Important Commands
+# 🔐 Security Best Practices
 
-### jq
-
-AWS CLI returns data in JSON format.  
-`jq` is used to extract useful information from that JSON response.
-
-Example:
-
-
-jq -r '.Reservations[].Instances[].InstanceId'
-
-
-This extracts **EC2 instance IDs** from the JSON output.
-
----
-
-### Log Redirection
-
-In the script you may see:
-
-
-resourceTracker.txt 2>&1
-
-
-Meaning:
-
-- `>>` → append output to the log file
-- `2>&1` → send error messages to the same log file
-
-This ensures all script output and errors are recorded.
-
----
-
-# 📸 Project Output
-
-The output includes:
-
-- EC2 Instance IDs
-- List of S3 Buckets
-- Lambda Functions
-- IAM Users
-
-Screenshots are available in the **screenshots folder**.
-
----
-
-# 🔐 Security Note
-
-Never upload the following to GitHub:
+Never upload these files to GitHub:
 
 - AWS Secret Keys
 - `.aws/credentials`
@@ -263,22 +270,22 @@ Always keep credentials private.
 
 # 🎯 What This Project Demonstrates
 
-This project shows practical understanding of:
+This project demonstrates real DevOps skills:
 
 - AWS CLI automation
 - Shell scripting
 - Linux cron scheduling
-- Cloud resource monitoring
+- Cloud infrastructure monitoring
 
-These are fundamental skills used in **DevOps and Cloud Engineering**.
+These are core concepts used by **DevOps and Cloud Engineers**.
 
 ---
 
 # 👨‍💻 Author
 
 Akash Bhaumik  
-B.Tech CSE  
-University of Engineering and Management, Kolkata
+B.Tech CSE
+University of Engineering & Management, Kolkata
 
 ---
 
@@ -286,7 +293,7 @@ University of Engineering and Management, Kolkata
 
 Possible improvements:
 
-- Email alerts when new resources are detected
+- Send alerts when new resources appear
 - Store logs in Amazon S3
 - Integrate with AWS CloudWatch
 - Build a monitoring dashboard
@@ -294,3 +301,4 @@ Possible improvements:
 ---
 
 ⭐ If you found this project useful, feel free to star the repository.
+
