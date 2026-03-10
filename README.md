@@ -1,4 +1,4 @@
----
+
 
 ## 🛠️ Technical Deep Dive: From Scratch
 
@@ -25,7 +25,6 @@ This ensures the robot writes everything down correctly:
 * **`>>` (Append)**: Adds new info to the end of the diary without erasing old logs.
 * **`2>&1` (Error Catching)**: In Linux, `1` is success and `2` is error. This tells the system: "Send all errors to the same file as the success messages". 
 
----
 
 ## 📸 Proof of Work & Automation
 
