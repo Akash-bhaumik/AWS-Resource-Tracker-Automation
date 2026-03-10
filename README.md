@@ -36,7 +36,7 @@ This is a critical Linux concept used in the script to ensure 100% logging accur
 
 ### 🟢 Automated Scheduling (The Heart of DevOps)
 I utilized the **Linux Cron** engine to schedule the audit. By setting the schedule to `* * * * *`, the system executes the script autonomously every 60 seconds.
-![Cron Automation Setup](./screenshots/cron_automation_setup.jpeg)
+![Cron Automation Setup](https://github.com/Akash-bhaumik/AWS-Resource-Tracker-Automation/blob/main/Screenshots/aws_report_output.png)
 
 ### 🟢 Live Audit Output
 This screenshot confirms the script is successfully communicating with the AWS API and retrieving the unique **EC2 Instance ID**.
