@@ -1,36 +1,43 @@
-# AWS Resource Tracker: Automation with Bash & Cron
+# ☁️ AWS CloudWatchman: Automated Resource Auditor 
 
-## 🚀 Project Overview
-This project is a DevOps utility designed to automate the tracking of cloud resources within an **Amazon Web Services (AWS)** environment. As a Cyber Security student at IEM Kolkata, I developed this script to solve the problem of "Cloud Sprawl"—where forgotten resources lead to security vulnerabilities and unnecessary costs.
+## 🌟 Project Overview (The "Why")
+As a Cyber Security student at **IEM Kolkata**, I developed this project to tackle the challenge of **Cloud Sprawl**. In a professional AWS environment, forgotten resources like old EC2 instances or unencrypted S3 buckets create massive security vulnerabilities and unexpected costs.
 
-The script acts as an automated "Digital Watchman," auditing the following services:
-* **Amazon S3**: Lists all storage buckets.
-* **Amazon EC2**: Extracts and lists all active Instance IDs.
-* **AWS Lambda**: Lists all serverless functions.
-* **AWS IAM**: Audits all users within the account to ensure visibility.
+This tool is a **Bash-based Automation Engine** that provides 100% visibility into your cloud infrastructure by auditing four core AWS services every hour without human intervention.
 
 ---
 
-## 🛠️ Technical Stack
-* **Cloud Provider**: AWS (EC2, S3, Lambda, IAM)
-* **Operating System**: Ubuntu
-* **Scripting Language**: Bash Shell Scripting
-* **JSON Processing**: `jq`
-* **Automation**: Cron (Linux Task Scheduler)
+## 🛠️ Technical Deep Dive: From Scratch
+
+### 1. The Core Engine (`aws_resource_tracker.sh`)
+The script functions as a "Digital Sentry" that queries the AWS API for the following:
+* **Amazon S3**: Scans for all storage buckets to ensure data perimeter awareness.
+* **Amazon EC2**: Extracts live Instance IDs of virtual machines.
+* **AWS Lambda**: Lists serverless functions to prevent "Serverless Sprawl".
+* **AWS IAM**: Audits all users to monitor for unauthorized account creation.
+
+### 2. The Power of `jq` (JSON Processing)
+AWS CLI commands return data in **JSON** (JavaScript Object Notation) format, which is often hundreds of lines of messy text.
+* **What is `jq`?**: It is a lightweight command-line JSON processor.
+* **The Filter**: We use `.Reservations[].Instances[].InstanceId` to "drill down" into the data.
+* **Raw Output (`-r`)**: We use the `-r` flag to remove quotation marks, giving us clean, plain text IDs like `i-0df8ec88759d0c085`.
+
+
+
+### 3. Understanding `} >> "$LOG_FILE" 2>&1`
+This is a critical Linux concept used in the script to ensure 100% logging accuracy:
+* **`>>` (Append Redirection)**: Unlike `>`, which overwrites a file, `>>` adds the new audit report to the bottom of the existing diary.
+* **`2>&1` (Error Consolidation)**: In Linux, `1` is the Standard Output (Success) and `2` is the Standard Error (Failures). This command tells the system: "Send all errors to the same file as the success messages". 
+* **Why it matters**: If the script fails due to "Access Denied," you will see that error inside your `resourceTracker.txt` instead of a blank page.
 
 ---
 
-## 📋 Features
-- **Automated Auditing**: Runs on a schedule without manual intervention.
-- **Clean Data Extraction**: Uses `jq` to filter messy JSON output into readable IDs.
-- **Error Logging**: Captures both standard output and errors into a central log file (`2>&1`).
-- **Historical Tracking**: Appends data to a report file to keep a history of resource changes.
+## 📸 Proof of Work & Automation
 
----
+### 🟢 Automated Scheduling (The Heart of DevOps)
+I utilized the **Linux Cron** engine to schedule the audit. By setting the schedule to `* * * * *`, the system executes the script autonomously every 60 seconds.
+![Cron Automation Setup](./screenshots/cron_automation_setup.jpeg)
 
-## ⚙️ Setup and Installation
-
-### 1. Prerequisites
-Ensure your environment has the AWS CLI and `jq` installed:
-```bash
-sudo apt update && sudo apt install awscli jq -y
+### 🟢 Live Audit Output
+This screenshot confirms the script is successfully communicating with the AWS API and retrieving the unique **EC2 Instance ID**.
+![AWS Report Output](./screenshots/aws_report_output.png)
